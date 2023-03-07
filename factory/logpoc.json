@@ -1,0 +1,9 @@
+{
+	"name": "logpoc",
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "780b7146-2267-42f5-bff5-121ac713caca",
+		"tenantId": "51e62f90-b72f-472d-9aab-445c9c0254cc"
+	}
+}
