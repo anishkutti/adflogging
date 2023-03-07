@@ -1,0 +1,72 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HubDbSqlConn",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "RowId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProdName",
+				"type": "varchar"
+			},
+			{
+				"name": "ProdDesc",
+				"type": "varchar"
+			},
+			{
+				"name": "Price",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "OldPrice",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "discount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ratingsCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ratingsValue",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "availibilityCount",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "weight",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "categoryId",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ProductList"
+		}
+	}
+}
