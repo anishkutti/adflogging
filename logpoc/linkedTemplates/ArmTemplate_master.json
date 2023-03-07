@@ -14,7 +14,7 @@
 		"HubDbSqlConn_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'HubDbSqlConn'",
-			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=hubuser"
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",

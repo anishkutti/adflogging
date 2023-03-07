@@ -9,7 +9,7 @@
 			"value": ""
 		},
 		"HubDbSqlConn_connectionString": {
-			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=hubuser"
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://logging-akvault.vault.azure.net/"
