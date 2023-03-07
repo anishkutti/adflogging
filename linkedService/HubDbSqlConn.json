@@ -1,0 +1,19 @@
+{
+	"name": "HubDbSqlConn",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=hubuser",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "logginkeyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sqlhubpassword",
+				"secretVersion": "12f4aee4124c4c2294e87248f90ab820"
+			}
+		}
+	}
+}
