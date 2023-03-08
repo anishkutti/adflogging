@@ -1,0 +1,14 @@
+{
+	"name": "AzureKeyVault2_mgid",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://logging-akvault.vault.azure.net",
+			"credential": {
+				"referenceName": "ak-mgid",
+				"type": "CredentialReference"
+			}
+		}
+	}
+}
