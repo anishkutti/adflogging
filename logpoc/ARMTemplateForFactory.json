@@ -30,11 +30,15 @@
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		},
-		"logginkeyvault_properties_typeProperties_baseUrl": {
+		"AzureKeyVault2_mgid_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://logging-akvault.vault.azure.net"
+		},
+		"akmg_keyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		},
-		"akmg_keyvault_properties_typeProperties_baseUrl": {
+		"logginkeyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		}
@@ -356,6 +360,25 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault2_mgid')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault2_mgid_properties_typeProperties_baseUrl')]",
+					"credential": {
+						"referenceName": "ak-mgid",
+						"type": "CredentialReference"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/credentials/ak-mgid')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -404,6 +427,25 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/akmg_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('akmg_keyvault_properties_typeProperties_baseUrl')]",
+					"credential": {
+						"referenceName": "ak-mgid",
+						"type": "CredentialReference"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/credentials/ak-mgid')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/logginkeyvault')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -415,6 +457,29 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_mgid')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('sql_mgid_connectionString')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "akmg_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "sqlhubpassword"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/akmg_keyvault')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger1')]",
@@ -458,48 +523,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/akmg_keyvault')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('akmg_keyvault_properties_typeProperties_baseUrl')]",
-					"credential": {
-						"referenceName": "ak-mgid",
-						"type": "CredentialReference"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/credentials/ak-mgid')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/sql_mgid')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('sql_mgid_connectionString')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "akmg_keyvault",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "sqlhubpassword"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/akmg_keyvault')]"
-			]
 		}
 	]
 }

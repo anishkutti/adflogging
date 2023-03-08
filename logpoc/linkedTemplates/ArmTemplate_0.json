@@ -34,6 +34,10 @@
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		},
+		"AzureKeyVault2_mgid_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://logging-akvault.vault.azure.net"
+		},
 		"akmg_keyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
@@ -180,6 +184,25 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault2_mgid')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault2_mgid_properties_typeProperties_baseUrl')]",
+					"credential": {
+						"referenceName": "ak-mgid",
+						"type": "CredentialReference"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/credentials/ak-mgid')]"
 			]
 		},
 		{

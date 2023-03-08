@@ -20,10 +20,13 @@
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://logging-akvault.vault.azure.net/"
 		},
-		"logginkeyvault_properties_typeProperties_baseUrl": {
-			"value": "https://logging-akvault.vault.azure.net/"
+		"AzureKeyVault2_mgid_properties_typeProperties_baseUrl": {
+			"value": "https://logging-akvault.vault.azure.net"
 		},
 		"akmg_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://logging-akvault.vault.azure.net/"
+		},
+		"logginkeyvault_properties_typeProperties_baseUrl": {
 			"value": "https://logging-akvault.vault.azure.net/"
 		}
 	}
