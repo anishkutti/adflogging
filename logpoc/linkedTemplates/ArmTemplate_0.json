@@ -363,7 +363,7 @@
 					"password": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
-							"referenceName": "akmg_keyvault",
+							"referenceName": "AzureKeyVault2_mgid",
 							"type": "LinkedServiceReference"
 						},
 						"secretName": "sqlhubpassword"
@@ -371,7 +371,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/akmg_keyvault')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault2_mgid')]"
 			]
 		},
 		{
