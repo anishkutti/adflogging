@@ -1,0 +1,18 @@
+{
+	"name": "sql_mgid",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akmg_keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sqlhubpassword"
+			}
+		}
+	}
+}
