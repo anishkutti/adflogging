@@ -8,7 +8,7 @@
 			"password": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "akmg_keyvault",
+					"referenceName": "AzureKeyVault2_mgid",
 					"type": "LinkedServiceReference"
 				},
 				"secretName": "sqlhubpassword"
