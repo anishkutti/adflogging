@@ -11,9 +11,19 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
+		},
 		"HubDbSqlConn_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'HubDbSqlConn'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
+		},
+		"sql_mgid_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sql_mgid'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
@@ -21,6 +31,10 @@
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		},
 		"logginkeyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://logging-akvault.vault.azure.net/"
+		},
+		"akmg_keyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		}
@@ -104,6 +118,18 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ak-mgid')]",
+			"type": "Microsoft.DataFactory/factories/credentials",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "ManagedIdentity",
+				"typeProperties": {
+					"resourceId": "/subscriptions/a6bed288-5221-40ff-bdcc-9692062fb187/resourcegroups/loggingAlert/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ak-managedid"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/destFolder')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -157,6 +183,30 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "logginkeyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "sqlhubpassword",
+						"secretVersion": "12f4aee4124c4c2294e87248f90ab820"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/logginkeyvault')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/HubDbSqlConn')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -178,6 +228,25 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/logginkeyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/akmg_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('akmg_keyvault_properties_typeProperties_baseUrl')]",
+					"credential": {
+						"referenceName": "ak-mgid",
+						"type": "CredentialReference"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/credentials/ak-mgid')]"
 			]
 		},
 		{
@@ -260,12 +329,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/sql_mgid')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('sql_mgid_connectionString')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "akmg_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "sqlhubpassword"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/akmg_keyvault')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "HubDbSqlConn",
+					"referenceName": "sql_mgid",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -333,7 +425,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/HubDbSqlConn')]"
+				"[concat(variables('factoryId'), '/linkedServices/sql_mgid')]"
 			]
 		},
 		{
@@ -376,6 +468,37 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "sqlConnection",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 8,
+						"startTime": "2023-03-07T22:26:00",
+						"endTime": "2023-03-08T22:26:00",
+						"timeZone": "Pacific Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/sqlConnection')]"
 			]
 		}
 	]

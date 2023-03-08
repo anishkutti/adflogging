@@ -11,9 +11,19 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
+		},
 		"HubDbSqlConn_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'HubDbSqlConn'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
+		},
+		"sql_mgid_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sql_mgid'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=hubserverdb.database.windows.net;Initial Catalog=hubdb;User ID=anishadmin"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
@@ -21,6 +31,10 @@
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		},
 		"logginkeyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://logging-akvault.vault.azure.net/"
+		},
+		"akmg_keyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://logging-akvault.vault.azure.net/"
 		},
@@ -54,14 +68,23 @@
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
 					"HubDbSqlConn_connectionString": {
 						"value": "[parameters('HubDbSqlConn_connectionString')]"
+					},
+					"sql_mgid_connectionString": {
+						"value": "[parameters('sql_mgid_connectionString')]"
 					},
 					"AzureKeyVault1_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					},
 					"logginkeyvault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('logginkeyvault_properties_typeProperties_baseUrl')]"
+					},
+					"akmg_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('akmg_keyvault_properties_typeProperties_baseUrl')]"
 					}
 				}
 			},
