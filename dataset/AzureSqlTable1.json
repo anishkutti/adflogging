@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "HubDbSqlConn",
+			"referenceName": "sql_mgid",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
