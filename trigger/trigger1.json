@@ -8,7 +8,7 @@
 		"typeProperties": {
 			"recurrence": {
 				"frequency": "Hour",
-				"interval": 8,
+				"interval": 64,
 				"startTime": "2023-03-07T22:26:00",
 				"endTime": "2023-03-08T22:26:00",
 				"timeZone": "Pacific Standard Time"
